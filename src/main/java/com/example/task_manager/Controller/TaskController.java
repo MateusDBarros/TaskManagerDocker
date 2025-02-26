@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/task")
@@ -26,6 +27,28 @@ public class TaskController {
 
     @GetMapping
     public ResponseEntity<List<Task>> getTasks() {
-        services.
+        List<Task> taskList = services.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(taskList);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Task>> findById(@RequestParam long id) {
+        Optional<Task> task = services.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(task);
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateTask(@RequestBody Task task, @RequestParam long id) {
+        task.setTaskId(id);
+        services.updateTask(task);
+        return ResponseEntity.status(HttpStatus.OK).body("Task atualizada com sucesso!");
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTask(@RequestParam long id) {
+        services.deleteTask(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Task com ID: " +id+ " foi apagada com sucesso!");
     }
 }
