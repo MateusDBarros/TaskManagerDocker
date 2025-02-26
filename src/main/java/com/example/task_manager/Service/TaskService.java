@@ -43,5 +43,11 @@ public class TaskService {
         repository.save(task);
     }
 
+    public void deleteTask(long id) {
+        boolean exist = repository.existsById(id);
 
+        if (!exist)
+            throw new IllegalStateException("ID escolhida para deletar não existe");
+        repository.deleteById(id);
+    }
 }
