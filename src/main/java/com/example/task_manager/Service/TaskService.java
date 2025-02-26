@@ -34,6 +34,10 @@ public class TaskService {
             throw new IllegalStateException("ID escolhido para busca não existe");
     }
 
+    public List<Task> findAll() {
+        return repository.findAll();
+    }
+
     @Transactional
     public void updateTask(Task task) {
         boolean exist = repository.existsById(task.getTaskId());
