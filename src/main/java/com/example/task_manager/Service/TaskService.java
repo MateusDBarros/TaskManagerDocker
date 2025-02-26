@@ -3,6 +3,7 @@ package com.example.task_manager.Service;
 import com.example.task_manager.Model.Task;
 import com.example.task_manager.Repository.TaskRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +31,16 @@ public class TaskService {
         if (exist)
             return repository.findById(id);
         else
-            throw new IllegalStateException("ID escolhido para busca, não existe");
+            throw new IllegalStateException("ID escolhido para busca não existe");
+    }
+
+    @Transactional
+    public void updateTask(Task task) {
+        boolean exist = repository.existsById(task.getTaskId());
+
+        if (!exist)
+            throw new IllegalStateException("ID escolhida para update não existe");
+        repository.save(task);
     }
 
 
